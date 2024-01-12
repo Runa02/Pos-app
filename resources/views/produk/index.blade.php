@@ -15,9 +15,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="btn-group">
-                    <button onclick="addForm('{{ route('produk.store') }}')" class="btn btn-success btn-xs btn-flat"><i class="fa fa-plus-circle"></i> Tambah</button>
-                    <button onclick="deleteSelected('{{ route('produk.delete_selected') }}')" class="btn btn-danger btn-xs btn-flat"><i class="fa fa-trash"></i> Hapus</button>
-                    <button onclick="cetakBarcode('{{ route('produk.cetak_barcode') }}')" class="btn btn-info btn-xs btn-flat"><i class="fa fa-barcode"></i> Cetak Barcode</button>
+                    <button onclick="addForm('{{ route('produk.store') }}')" class="btn btn-success btn-flat"><i class="fa fa-plus-circle"></i> Tambah</button>
                 </div>
             </div>
             <div class="box-body table-responsive">
@@ -25,9 +23,6 @@
                     @csrf
                     <table class="table table-stiped table-bordered">
                         <thead>
-                            <th width="5%">
-                                <input type="checkbox" name="select_all" id="select_all">
-                            </th>
                             <th width="5%">No</th>
                             <th>Kode</th>
                             <th>Nama</th>
@@ -39,6 +34,34 @@
                             <th>Stok</th>
                             <th width="15%"><i class="fa fa-cog"></i></th>
                         </thead>
+                        <tbody>
+                            @foreach ($kategori as $produks)
+                            <tr>
+                            <td>{{$loop->iteration }}</td>
+                            <td>
+                                {{ $produks->kode_produk }}
+                            </td>
+                            <td>{{ $produks->nama_produk }}</td>
+                            <td>{{ $produks->id_kategori }}</td>
+                            <td>{{ $produks->merk }}</td>
+                            <td>{{ $produks->harga_beli }}</td>
+                            <td>{{ $produks->harga_jual }}</td>
+                            <td>{{ $produks->diskon }}</td>
+                            <td>{{ $produks->stok }}</td>
+                            <td class="text-center align-middle" >
+                                <a onclick="editForm('{{ route('produk.update', $produks->id_produk) }}')" class="btn btn-warning">
+                                    <i class="fa fa-pencil"></i>
+                                    Edit
+                                </a>
+                                <a onclick="deleteData('{{ route('produk.destroy', $produks->id_produk) }}')" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                    Delete
+                                </a>
+                                
+                            </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
                     </table>
                 </form>
             </div>
@@ -51,50 +74,50 @@
 
 @push('scripts')
 <script>
-    let table;
+    // let table;
 
-    $(function () {
-        table = $('.table').DataTable({
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            autoWidth: false,
-            ajax: {
-                url: '{{ route('produk.data') }}',
-            },
-            columns: [
-                {data: 'select_all', searchable: false, sortable: false},
-                {data: 'DT_RowIndex', searchable: false, sortable: false},
-                {data: 'kode_produk'},
-                {data: 'nama_produk'},
-                {data: 'nama_kategori'},
-                {data: 'merk'},
-                {data: 'harga_beli'},
-                {data: 'harga_jual'},
-                {data: 'diskon'},
-                {data: 'stok'},
-                {data: 'aksi', searchable: false, sortable: false},
-            ]
-        });
+    // $(function () {
+    //     table = $('.table').DataTable({
+    //         responsive: true,
+    //         processing: true,
+    //         serverSide: true,
+    //         autoWidth: false,
+    //         ajax: {
+    //             url: '{{ route('produk.data') }}',
+    //         },
+    //         columns: [
+    //             {data: 'select_all', searchable: false, sortable: false},
+    //             {data: 'DT_RowIndex', searchable: false, sortable: false},
+    //             {data: 'kode_produk'},
+    //             {data: 'nama_produk'},
+    //             {data: 'nama_kategori'},
+    //             {data: 'merk'},
+    //             {data: 'harga_beli'},
+    //             {data: 'harga_jual'},
+    //             {data: 'diskon'},
+    //             {data: 'stok'},
+    //             {data: 'aksi', searchable: false, sortable: false},
+    //         ]
+    //     });
 
-        $('#modal-form').validator().on('submit', function (e) {
-            if (! e.preventDefault()) {
-                $.post($('#modal-form form').attr('action'), $('#modal-form form').serialize())
-                    .done((response) => {
-                        $('#modal-form').modal('hide');
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        alert('Tidak dapat menyimpan data');
-                        return;
-                    });
-            }
-        });
+    //     $('#modal-form').validator().on('submit', function (e) {
+    //         if (! e.preventDefault()) {
+    //             $.post($('#modal-form form').attr('action'), $('#modal-form form').serialize())
+    //                 .done((response) => {
+    //                     $('#modal-form').modal('hide');
+    //                     table.ajax.reload();
+    //                 })
+    //                 .fail((errors) => {
+    //                     alert('Tidak dapat menyimpan data');
+    //                     return;
+    //                 });
+    //         }
+    //     });
 
-        $('[name=select_all]').on('click', function () {
-            $(':checkbox').prop('checked', this.checked);
-        });
-    });
+    //     $('[name=select_all]').on('click', function () {
+    //         $(':checkbox').prop('checked', this.checked);
+    //     });
+    // });
 
     function addForm(url) {
         $('#modal-form').modal('show');
@@ -138,7 +161,7 @@
                     '_method': 'delete'
                 })
                 .done((response) => {
-                    table.ajax.reload();
+                    location.reload();
                 })
                 .fail((errors) => {
                     alert('Tidak dapat menghapus data');
@@ -162,21 +185,6 @@
         } else {
             alert('Pilih data yang akan dihapus');
             return;
-        }
-    }
-
-    function cetakBarcode(url) {
-        if ($('input:checked').length < 1) {
-            alert('Pilih data yang akan dicetak');
-            return;
-        } else if ($('input:checked').length < 3) {
-            alert('Pilih minimal 3 data untuk dicetak');
-            return;
-        } else {
-            $('.form-produk')
-                .attr('target', '_blank')
-                .attr('action', url)
-                .submit();
         }
     }
 </script>

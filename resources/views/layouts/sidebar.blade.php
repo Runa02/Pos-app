@@ -22,7 +22,7 @@
                 </a>
             </li>
 
-            @if (auth()->user()->level == 1)
+            @if (auth()->user()->role == 'admin')
             <li class="header">MASTER</li>
             <li>
                 <a href="{{ route('kategori.index') }}">
@@ -87,15 +87,40 @@
                     <i class="fa fa-cogs"></i> <span>Pengaturan</span>
                 </a>
             </li>
-            @else
+            @endif
+            
+            @if (auth()->user()->role == 'penjual')
+            <li class="header">MASTER</li>
             <li>
-                <a href="{{ route('transaksi.index') }}">
-                    <i class="fa fa-cart-arrow-down"></i> <span>Transaksi Aktif</span>
+                <a href="{{ route('kategori.index') }}">
+                    <i class="fa fa-cube"></i> <span>Kategori</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('transaksi.baru') }}">
-                    <i class="fa fa-cart-arrow-down"></i> <span>Transaksi Baru</span>
+                <a href="{{ route('produk.index') }}">
+                    <i class="fa fa-cubes"></i> <span>Produk</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('supplier.index') }}">
+                    <i class="fa fa-truck"></i> <span>Supplier</span>
+                </a>
+            </li>
+            <li class="header">REPORT</li>
+            <li>
+                <a href="{{ route('laporan.index') }}">
+                    <i class="fa fa-file-pdf-o"></i> <span>Laporan</span>
+                </a>
+            </li>
+            <li class="header">SYSTEM</li>
+            <li>
+                <a href="{{ route('user.index') }}">
+                    <i class="fa fa-users"></i> <span>User</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route("setting.index") }}">
+                    <i class="fa fa-cogs"></i> <span>Pengaturan</span>
                 </a>
             </li>
             @endif

@@ -12,12 +12,12 @@ class CekLevel
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param mixed $level  [1. admin | 2. kasir]
+     * @param mixed $role  [admin | penjual | pembeli]
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, ...$level)
+    public function handle(Request $request, Closure $next, ...$role)
     {
-        if (auth()->user() && in_array(auth()->user()->level, $level)) {
+        if (auth()->user() && in_array(auth()->user()->role, $role)) {
             return $next($request);
         }
 
