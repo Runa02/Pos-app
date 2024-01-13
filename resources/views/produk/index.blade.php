@@ -35,12 +35,10 @@
                             <th width="15%"><i class="fa fa-cog"></i></th>
                         </thead>
                         <tbody>
-                            @foreach ($kategori as $produks)
+                            @foreach ($produk as $produks)
                             <tr>
                             <td>{{$loop->iteration }}</td>
-                            <td>
-                                {{ $produks->kode_produk }}
-                            </td>
+                            <td>{{ $produks->kode_produk }}</td>
                             <td>{{ $produks->nama_produk }}</td>
                             <td>{{ $produks->id_kategori }}</td>
                             <td>{{ $produks->merk }}</td>

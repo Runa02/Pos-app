@@ -22,9 +22,9 @@
                 </a>
             </li>
 
-            @if (auth()->user()->role == 'admin')
+            @if (auth()->user()->role_id == 1)
             <li class="header">MASTER</li>
-            <li>
+            {{-- <li>
                 <a href="{{ route('kategori.index') }}">
                     <i class="fa fa-cube"></i> <span>Kategori</span>
                 </a>
@@ -33,18 +33,23 @@
                 <a href="{{ route('produk.index') }}">
                     <i class="fa fa-cubes"></i> <span>Produk</span>
                 </a>
+            </li> --}}
+            <li>
+                <a href="{{ route('role.index') }}">
+                    <i class="fa fa-id-card"></i> <span>Role</span>
+                </a>
             </li>
             <li>
                 <a href="{{ route('member.index') }}">
-                    <i class="fa fa-id-card"></i> <span>Member</span>
+                    <i class="fa fa-user"></i> <span>Member</span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{ route('supplier.index') }}">
                     <i class="fa fa-truck"></i> <span>Supplier</span>
                 </a>
-            </li>
-            <li class="header">TRANSAKSI</li>
+            </li> --}}
+            {{-- <li class="header">TRANSAKSI</li>
             <li>
                 <a href="{{ route('pengeluaran.index') }}">
                     <i class="fa fa-money"></i> <span>Pengeluaran</span>
@@ -75,7 +80,7 @@
                 <a href="{{ route('laporan.index') }}">
                     <i class="fa fa-file-pdf-o"></i> <span>Laporan</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="header">SYSTEM</li>
             <li>
                 <a href="{{ route('user.index') }}">
@@ -89,7 +94,7 @@
             </li>
             @endif
             
-            @if (auth()->user()->role == 'penjual')
+            @if (auth()->user()->role_id == 2)
             <li class="header">MASTER</li>
             <li>
                 <a href="{{ route('kategori.index') }}">

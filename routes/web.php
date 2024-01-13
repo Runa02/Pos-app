@@ -11,6 +11,7 @@ use App\Http\Controllers\{
     PembelianDetailController,
     PenjualanController,
     PenjualanDetailController,
+    RoleController,
     SettingController,
     SupplierController,
     UserController,
@@ -35,7 +36,7 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::group(['middleware' => 'role:penjual'], function () {
+    Route::group(['middleware' => 'role_id:2'], function () {
         Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
         Route::resource('/kategori', KategoriController::class);
         
@@ -72,7 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
     });
 
-    Route::group(['middleware' => 'role:admin'], function () {
+    Route::group(['middleware' => 'role_id:1'], function () {
         Route::get('/transaksi/baru', [PenjualanController::class, 'create'])->name('transaksi.baru');
         Route::post('/transaksi/simpan', [PenjualanController::class, 'store'])->name('transaksi.simpan');
         Route::get('/transaksi/selesai', [PenjualanController::class, 'selesai'])->name('transaksi.selesai');
@@ -83,9 +84,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/transaksi/loadform/{diskon}/{total}/{diterima}', [PenjualanDetailController::class, 'loadForm'])->name('transaksi.load_form');
         Route::resource('/transaksi', PenjualanDetailController::class)
             ->except('create', 'show', 'edit');
+        
+        Route::get('/role', [RoleController::class, 'index'])->name('role.index');
+        Route::get('/role/baru', [RoleController::class, 'create'])->name('role.create');
+        Route::post('/role/simpan', [RoleController::class, 'store'])->name('role.simpan');
+        // Route::post('/role/update/{id}', [RoleController::class, 'update'])->name('role.update');
+        Route::delete('/role/delete/{id}', [RoleController::class, 'destroy'])->name('role.delete');
+        Route::resource('/role', RoleController::class);
     });
 
-    Route::group(['middleware' => 'role:admin'], function () {
+    Route::group(['middleware' => 'role_id:1'], function () {
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
         Route::get('/laporan/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDF'])->name('laporan.export_pdf');
@@ -98,7 +106,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/setting', [SettingController::class, 'update'])->name('setting.update');
     });
  
-    Route::group(['middleware' => 'role:admin,2'], function () {
+    Route::group(['middleware' => 'role_id:1,2'], function () {
         Route::get('/profil', [UserController::class, 'profil'])->name('user.profil');
         Route::post('/profil', [UserController::class, 'updateProfil'])->name('user.update_profil');
     });

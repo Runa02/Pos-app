@@ -20,28 +20,28 @@ class UserTableSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('12345678'),
                 'foto' => '/img/user.jpg',
-                'role' => 'admin'
+                'role_id' => 1
             ],
             [
                 'name' => 'Penjual 1',
                 'email' => 'penjual1@gmail.com',
                 'password' => bcrypt('12345678'),
                 'foto' => '/img/user.jpg',
-                'role' => 'penjual'
+                'role_id' => 2
             ],
             [
                 'name' => 'Penjual 2',
                 'email' => 'penjual2@gmail.com',
                 'password' => bcrypt('12345678'),
                 'foto' => '/img/user.jpg',
-                'role' => 'penjual'
+                'role_id' => 2
             ],
             [
                 'name' => 'Pembeli',
                 'email' => 'Pembeli@gmail.com',
                 'password' => bcrypt('12345678'),
                 'foto' => '/img/user.jpg',
-                'role' => 'pembeli'
+                'role_id' => 3
             ]
         );
 

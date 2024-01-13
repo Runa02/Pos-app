@@ -29,7 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
+        'role_id',
     ];
 
     /**
@@ -64,6 +64,11 @@ class User extends Authenticatable
 
     public function scopeIsNotAdmin($query)
     {
-        return $query->where('role', '!=', 'admin');
+        return $query->where('role_id', '!=', 1);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }

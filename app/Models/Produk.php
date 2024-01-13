@@ -13,8 +13,10 @@ class Produk extends Model
     protected $primaryKey = 'id_produk';
     protected $guarded = [];
 
-    public function role()
+    protected $fillable = ['user_id', 'id_kategori', 'kode_produk', 'nama_produk', 'merk', 'harga_beli', 'diskon', 'harga_jual', 'stok'];
+
+    public function user()
     {
-        return $this->belongsTo(User::class, 'role');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

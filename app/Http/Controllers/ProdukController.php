@@ -17,13 +17,19 @@ class ProdukController extends Controller
      */
     public function index(Request $request)
     {
-        // $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
-
-        // return view('produk.index', compact('kategori'));
-        $category = Kategori::all()->pluck('nama_kategori', 'id_kategori');
-        $kategori = Produk::all();
-        return view('produk.index', compact('kategori','category'));
+        $categories = Kategori::all();
+        $categoryList = $categories->pluck('nama_kategori', 'id_kategori');
+    
+        // Retrieve the authenticated user (current seller)
+        $currentUser = auth()->user();
+    
+        // Use where to filter products based on the current seller's user_id
+        $produk = Produk::where('user_id', $currentUser->id)->get();
+    
+        return view('produk.index', compact('produk', 'categoryList'));
     }
+    
+    
 
     // public function data()
     // {
@@ -82,14 +88,22 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        $produk = Produk::latest()->first() ?? new Produk();
-        $request['kode_produk'] = 'P'. tambah_nol_didepan((int)$produk->id_produk +1, 6);
-
-        $produk = Produk::create($request->all());
-        $produk->seller_id = auth()->user()->id;
-
+        $user = auth()->user();
+    
+        // Create a new Produk instance
+        $produk = new Produk($request->all());
+        $produk->user_id = $user->id;
+    
+        // Set the kode_produk based on the current timestamp or any logic you prefer
+        $produk->kode_produk = 'P' . now()->format('YmdHis');
+    
+        // Save the Produk instance
+        $produk->save();
+    
         return redirect()->route('produk.index')->with('message', 'Data berhasil disimpan', 200);
     }
+    
+    
 
     /**
      * Display the specified resource.
