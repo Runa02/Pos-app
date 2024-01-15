@@ -41,7 +41,7 @@ class DashboardController extends Controller
 
         $tanggal_awal = date('Y-m-01');
 
-        if (auth()->user()->role == 'admin') {
+        if (auth()->user()->role_id == 1) {
             return view('admin.dashboard', compact('kategori', 'produk', 'supplier', 'member', 'tanggal_awal', 'tanggal_akhir', 'data_tanggal', 'data_pendapatan'));
         } else {
             return view('kasir.dashboard');

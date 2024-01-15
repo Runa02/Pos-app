@@ -14,6 +14,7 @@ class BuatProdukTable extends Migration
     public function up()
     {
         Schema::create('produk', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained();
             $table->increments('id_produk');
             $table->unsignedInteger('id_kategori');
             $table->string('nama_produk')->unique();

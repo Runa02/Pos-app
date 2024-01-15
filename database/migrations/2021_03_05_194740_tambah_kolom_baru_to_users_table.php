@@ -15,7 +15,7 @@ class TambahKolomBaruToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('foto')->nullable()->after('password');
-            $table->string('role')->default('pembeli')->after('foto');
+            $table->unsignedBigInteger('role_id')->constrained('roles')->after('id');
         });
     }
 
@@ -29,7 +29,7 @@ class TambahKolomBaruToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn([
                 'foto',
-                'role'
+                'role_id'
             ]);
         });
     }
