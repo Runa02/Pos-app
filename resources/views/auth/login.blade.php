@@ -4,7 +4,7 @@
 <div class="login-box">
 
     <!-- /.login-logo -->
-    <div class="login-box-body">
+    <div class="login-box-body mb-5">
         <div class="login-logo">
             <a href="{{ url('/') }}">
                 <img src="{{ url($setting->path_logo) }}" alt="logo.png" width="100">
@@ -41,13 +41,17 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    <button type="submit" class="btn btn-success btn-block btn-flat">Sign In</button>
                 </div>
                 <!-- /.col -->
             </div>
-        </form>
-    </div>
-    <!-- /.login-box-body -->
+        </div>
+    </form>
+        <!-- /.login-box-body -->
+        <hr value="Or">
+        <div class="col-12">
+            <a href="{{ route('register')}}" type="button" class="btn btn-primary btn-block btn-flat">Register</a>
+        </div>
 </div>
 <!-- /.login-box -->
 @endsection
