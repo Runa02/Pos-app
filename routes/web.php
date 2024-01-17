@@ -16,6 +16,7 @@ use App\Http\Controllers\{
     SupplierController,
     UserController,
 };
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('login');
 });
+Route::get('/register', [RegisterController::class, 'create'])->name('register');
+Route::post('/send-register', [RegisterController::class, 'store'])->name('send-register');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -39,7 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role_id:2'], function () {
         Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
         Route::resource('/kategori', KategoriController::class);
-        
+
         Route::get('/kategori/show', [ProdukController::class, 'showKategori'])->name('kategori.show');
         Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
         Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.show');
@@ -84,7 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/transaksi/loadform/{diskon}/{total}/{diterima}', [PenjualanDetailController::class, 'loadForm'])->name('transaksi.load_form');
         Route::resource('/transaksi', PenjualanDetailController::class)
             ->except('create', 'show', 'edit');
-        
+
         Route::get('/role', [RoleController::class, 'index'])->name('role.index');
         Route::get('/role/baru', [RoleController::class, 'create'])->name('role.create');
         Route::post('/role/simpan', [RoleController::class, 'store'])->name('role.simpan');
@@ -105,7 +108,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/setting/first', [SettingController::class, 'show'])->name('setting.show');
         Route::post('/setting', [SettingController::class, 'update'])->name('setting.update');
     });
- 
+
     Route::group(['middleware' => 'role_id:1,2'], function () {
         Route::get('/profil', [UserController::class, 'profil'])->name('user.profil');
         Route::post('/profil', [UserController::class, 'updateProfil'])->name('user.update_profil');

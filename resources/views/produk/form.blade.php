@@ -12,6 +12,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
+                        <label for="photo" class="col-lg-2 col-lg-offset-1 control-label">Profil</label>
+                        <div class="col-lg-6">
+                            <input type="file" name="photo" class=" form-control" id="photo" onchange="preview('.tampil-foto', this.files[0])">
+                            <span class="help-block with-errors"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="nama_produk" class="col-lg-2 col-lg-offset-1 control-label">Nama</label>
                         <div class="col-lg-6">
                             <input type="text" name="nama_produk" id="nama_produk" class="form-control" required autofocus>
@@ -62,6 +69,13 @@
                         <label for="stok" class="col-lg-2 col-lg-offset-1 control-label">Stok</label>
                         <div class="col-lg-6">
                             <input type="number" name="stok" id="stok" class="form-control" required value="0">
+                            <span class="help-block with-errors"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="desc" class="col-lg-2 col-lg-offset-1 control-label">Desc</label>
+                        <div class="col-lg-6">
+                            <textarea type="text" name="desc" id="desc" class="form-control" required></textarea>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
