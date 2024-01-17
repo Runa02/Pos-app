@@ -25,6 +25,7 @@
                         <thead>
                             <th width="5%">No</th>
                             <th>Kode</th>
+                            <th>Foto</th>
                             <th>Nama</th>
                             <th>Kategori</th>
                             <th>Merk</th>
@@ -39,6 +40,9 @@
                             <tr>
                             <td>{{$loop->iteration }}</td>
                             <td>{{ $produks->kode_produk }}</td>
+                            <td>
+                                <img src="{{ public_path('img/'.$produks->photo) }}" width="50">
+                            </td>
                             <td>{{ $produks->nama_produk }}</td>
                             <td>{{ $produks->id_kategori }}</td>
                             <td>{{ $produks->merk }}</td>
@@ -55,7 +59,7 @@
                                     <i class="fa fa-trash"></i>
                                     Delete
                                 </a>
-                                
+
                             </td>
                             </tr>
                         @endforeach

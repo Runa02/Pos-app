@@ -19,17 +19,17 @@ class ProdukController extends Controller
     {
         $categories = Kategori::all();
         $categoryList = $categories->pluck('nama_kategori', 'id_kategori');
-    
+
         // Retrieve the authenticated user (current seller)
         $currentUser = auth()->user();
-    
+
         // Use where to filter products based on the current seller's user_id
         $produk = Produk::where('user_id', $currentUser->id)->get();
-    
+
         return view('produk.index', compact('produk', 'categoryList'));
     }
-    
-    
+
+
 
     // public function data()
     // {
@@ -89,21 +89,31 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-    
+
+        $request->validate([
+            'photo' => 'required|image', // Example rules for an image upload
+        ]);
         // Create a new Produk instance
         $produk = new Produk($request->all());
         $produk->user_id = $user->id;
-    
+
         // Set the kode_produk based on the current timestamp or any logic you prefer
         $produk->kode_produk = 'P' . now()->format('YmdHis');
-    
+
+
+        $file = $request->file('photo');
+        $fileName = $request->nama_produk . '.' . $file->getClientOriginalName();
+        $image = $file->storeAs('photo', $fileName, 'public');
+        $produk->photo = $image;
+
+
         // Save the Produk instance
         $produk->save();
-    
+
         return redirect()->route('produk.index')->with('message', 'Data berhasil disimpan', 200);
     }
-    
-    
+
+
 
     /**
      * Display the specified resource.
