@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\User;
 use PDF;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -25,50 +27,10 @@ class ProdukController extends Controller
 
         // Use where to filter products based on the current seller's user_id
         $produk = Produk::where('user_id', $currentUser->id)->get();
-
+        
         return view('produk.index', compact('produk', 'categoryList'));
     }
 
-
-
-    // public function data()
-    // {
-    //     $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
-    //         ->select('produk.*', 'nama_kategori')
-    //         // ->orderBy('kode_produk', 'asc')
-    //         ->get();
-
-    //     return datatables()
-    //         ->of($produk)
-    //         ->addIndexColumn()
-    //         ->addColumn('select_all', function ($produk) {
-    //             return '
-    //                 <input type="checkbox" name="id_produk[]" value="'. $produk->id_produk .'">
-    //             ';
-    //         })
-    //         ->addColumn('kode_produk', function ($produk) {
-    //             return '<span class="label label-success">'. $produk->kode_produk .'</span>';
-    //         })
-    //         ->addColumn('harga_beli', function ($produk) {
-    //             return format_uang($produk->harga_beli);
-    //         })
-    //         ->addColumn('harga_jual', function ($produk) {
-    //             return format_uang($produk->harga_jual);
-    //         })
-    //         ->addColumn('stok', function ($produk) {
-    //             return format_uang($produk->stok);
-    //         })
-    //         ->addColumn('aksi', function ($produk) {
-    //             return '
-    //             <div class="btn-group">
-    //                 <button type="button" onclick="editForm(`'. route('produk.update', $produk->id_produk) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
-    //                 <button type="button" onclick="deleteData(`'. route('produk.destroy', $produk->id_produk) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
-    //             </div>
-    //             ';
-    //         })
-    //         ->rawColumns(['aksi', 'kode_produk', 'select_all'])
-    //         ->make(true);
-    // }
 
     /**
      * Show the form for creating a new resource.
@@ -91,26 +53,47 @@ class ProdukController extends Controller
         $user = auth()->user();
 
         $request->validate([
-            'photo' => 'required|image', // Example rules for an image upload
+            'id_kategori' => 'required',
+            'kode_produk' => 'nullable',
+            'nama_produk' => 'required',
+            'merk' => 'required',
+            'harga_beli' => 'required',
+            'diskon' => 'nullable',
+            'harga_jual' => 'required',
+            'stok' => 'required',
+            'desc' => 'required',
+            'photo' => 'required|image',
         ]);
-        // Create a new Produk instance
-        $produk = new Produk($request->all());
-        $produk->user_id = $user->id;
 
         // Set the kode_produk based on the current timestamp or any logic you prefer
-        $produk->kode_produk = 'P' . now()->format('YmdHis');
-
+        $kode_produk = 'P' . now()->format('YmdHis');
 
         $file = $request->file('photo');
-        $fileName = $request->nama_produk . '.' . $file->getClientOriginalName();
+        $fileName = $request->nama_produk . '.' . $file->getClientOriginalExtension(); // Use getClientOriginalExtension() to get the file extension
         $image = $file->storeAs('photo', $fileName, 'public');
-        $produk->photo = $image;
 
+        // Create a new Produk instance and set its attributes
+        $produk = new Produk([
+            'id_kategori' => $request->id_kategori,
+            'kode_produk' => $kode_produk,
+            'nama_produk' => $request->nama_produk,
+            'merk' => $request->merk,
+            'harga_beli' => $request->harga_beli,
+            'diskon' => $request->diskon,
+            'harga_jual' => $request->harga_jual,
+            'stok' => $request->stok,
+            'desc' => $request->desc,
+            'photo' => $image,
+        ]);
+
+        // Associate the Produk with the authenticated user
+        $produk->user()->associate($user);
 
         // Save the Produk instance
         $produk->save();
 
         return redirect()->route('produk.index')->with('message', 'Data berhasil disimpan', 200);
+        // return redirect()->route('produk.index')->withErrors($validator)->withInput();
     }
 
 
@@ -123,7 +106,7 @@ class ProdukController extends Controller
      */
     public function show($id)
     {
-        $produk = Produk::find($id);
+        $produk = Produk::all($id);
 
         return response()->json($produk);
     }
@@ -149,7 +132,57 @@ class ProdukController extends Controller
     public function update(Request $request, $id)
     {
         $produk = Produk::find($id);
-        $produk->update($request->all());
+        $request->validate([
+            'id_kategori' => 'nullable',
+            'kode_produk' => 'nullable',
+            'nama_produk' => 'nullable',
+            'merk' => 'nullable',
+            'harga_beli' => 'nullable',
+            'diskon' => 'nullable',
+            'harga_jual' => 'nullable',
+            'stok' => 'nullable',
+            'desc' => 'nullable',
+            'photo' => 'nullable|image',
+        ]);
+
+        $kode_produk = 'P' . now()->format('YmdHis');
+
+        if($request->hasFile('photo')){
+            if($produk->photo) {
+                Storage::disk('public')->delete($produk->photo);
+            }
+
+            $file = $request->file('photo');
+            $fileName = $request->nama . '.' . $file->getClientOriginalName();
+
+            $image = $file->storeAs('photo', $fileName, 'public');
+
+            $produk->update([
+                'id_kategori' => $request->id_kategori,
+                'kode_produk' => $kode_produk,
+                'nama_produk' => $request->nama_produk,
+                'merk' => $request->merk,
+                'harga_beli' => $request->harga_beli,
+                'diskon' => $request->diskon,
+                'harga_jual' => $request->harga_jual,
+                'stok' => $request->stok,
+                'desc' => $request->desc,
+                'photo' => $image,
+            ]);
+        }else{
+            $produk->update([
+                'id_kategori' => $request->id_kategori,
+                'kode_produk' => $kode_produk,
+                'nama_produk' => $request->nama_produk,
+                'merk' => $request->merk,
+                'harga_beli' => $request->harga_beli,
+                'diskon' => $request->diskon,
+                'harga_jual' => $request->harga_jual,
+                'stok' => $request->stok,
+                'desc' => $request->desc,
+            ]);
+        }
+        // $produk->update($request->all());
 
         return redirect()->route('produk.index');
     }

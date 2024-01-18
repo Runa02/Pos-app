@@ -41,7 +41,7 @@
                             <td>{{$loop->iteration }}</td>
                             <td>{{ $produks->kode_produk }}</td>
                             <td>
-                                <img src="{{ public_path('img/'.$produks->photo) }}" width="50">
+                                <img src="{{ $produks->photo }}" class="img-thumbnail" width="50" height="50">
                             </td>
                             <td>{{ $produks->nama_produk }}</td>
                             <td>{{ $produks->id_kategori }}</td>
@@ -132,30 +132,33 @@
     }
 
     function editForm(url) {
-        $('#modal-form').modal('show');
-        $('#modal-form .modal-title').text('Edit Produk');
+    $('#modal-form').modal('show');
+    $('#modal-form .modal-title').text('Edit Produk');
 
-        $('#modal-form form')[0].reset();
-        $('#modal-form form').attr('action', url);
-        $('#modal-form [name=_method]').val('put');
-        $('#modal-form [name=nama_produk]').focus();
+    // Reset the form
+    $('#edit-form')[0].reset();
 
-        $.get(url)
-            .done((response) => {
-                $('#modal-form [name=nama_produk]').val(response.nama_produk);
-                $('#modal-form [name=id_kategori]').val(response.id_kategori);
-                $('#modal-form [name=merk]').val(response.merk);
-                $('#modal-form [name=harga_beli]').val(response.harga_beli);
-                $('#modal-form [name=harga_jual]').val(response.harga_jual);
-                $('#modal-form [name=diskon]').val(response.diskon);
-                $('#modal-form [name=stok]').val(response.stok);
-            })
-            .fail((errors) => {
-                alert('Tidak dapat menampilkan data');
-                return;
-            });
+    // Set the form action and method
+    $('#edit-form').attr('action', url);
+    $('#edit-form [name=_method]').val('put');
+    $('#edit-form [name=nama_produk]').focus();
+
+    // Fetch data and populate form fields
+    $.get(url)
+        .done((response) => {
+            $('#edit-form [name=nama_produk]').val(response.nama_produk);
+            $('#edit-form [name=id_kategori]').val(response.id_kategori);
+            $('#edit-form [name=merk]').val(response.merk);
+            $('#edit-form [name=harga_beli]').val(response.harga_beli);
+            $('#edit-form [name=harga_jual]').val(response.harga_jual);
+            $('#edit-form [name=diskon]').val(response.diskon);
+            $('#edit-form [name=stok]').val(response.stok);
+        })
+        .fail((errors) => {
+            alert('Tidak dapat menampilkan data');
+            return;
+        });
     }
-
     function deleteData(url) {
         if (confirm('Yakin ingin menghapus data terpilih?')) {
             $.post(url, {
@@ -169,24 +172,6 @@
                     alert('Tidak dapat menghapus data');
                     return;
                 });
-        }
-    }
-
-    function deleteSelected(url) {
-        if ($('input:checked').length > 1) {
-            if (confirm('Yakin ingin menghapus data terpilih?')) {
-                $.post(url, $('.form-produk').serialize())
-                    .done((response) => {
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        alert('Tidak dapat menghapus data');
-                        return;
-                    });
-            }
-        } else {
-            alert('Pilih data yang akan dihapus');
-            return;
         }
     }
 </script>
