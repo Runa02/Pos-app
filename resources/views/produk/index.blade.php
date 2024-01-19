@@ -11,6 +11,18 @@
 
 @section('content')
 <div class="row">
+    @if (Session::has('message'))
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>{{ Session::get('message') }}!</strong>
+    </div>
+    @endif
+    @if (Session::has('error'))
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>{{ Session::get('error') }}!</strong>
+    </div>
+    @endif
     <div class="col-lg-12">
         <div class="box">
             <div class="box-header with-border">

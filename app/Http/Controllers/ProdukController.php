@@ -184,7 +184,7 @@ class ProdukController extends Controller
         }
         // $produk->update($request->all());
 
-        return redirect()->route('produk.index');
+        return redirect()->route('produk.index')->with('message', 'Data berhasil diperbarui');
     }
 
     /**

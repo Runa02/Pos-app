@@ -106,11 +106,6 @@
                     <i class="fa fa-cubes"></i> <span>Produk</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('supplier.index') }}">
-                    <i class="fa fa-truck"></i> <span>Supplier</span>
-                </a>
-            </li>
             <li class="header">PENJUALAN</li>
             <li>
                 <a href="{{ route('laporan.index') }}">

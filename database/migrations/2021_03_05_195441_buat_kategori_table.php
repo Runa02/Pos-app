@@ -14,6 +14,7 @@ class BuatKategoriTable extends Migration
     public function up()
     {
         Schema::create('kategori', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained();
             $table->increments('id_kategori');
             $table->string('nama_kategori')->unique();
             $table->timestamps();
