@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{
     DashboardController,
+    FrontController,
     KategoriController,
     LaporanController,
     ProdukController,
@@ -114,7 +115,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/profil', [UserController::class, 'updateProfil'])->name('user.update_profil');
     });
 
-    Route::get('/front', function() {
-        return view('front.index');
-    });
+    Route::get('/front', [FrontController::class, 'index'])->name('front.index');
+    Route::get('/front/cart', [FrontController::class, 'cart'])->name('front.cart');
 });
