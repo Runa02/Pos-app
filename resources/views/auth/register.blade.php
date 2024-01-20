@@ -47,9 +47,8 @@
             <div class="form-group has-feedback @error('role_id') has-error @enderror">
                 <select name="role_id" id="role_id" class="form-control" required>
                     <option value="">Pilih Role</option>
-                    @foreach ($data as $item)
-                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                    @endforeach
+                    <option value="2">Penjual</option>
+                    <option value="3">Pembeli</option>
                 </select>
                 <span class="help-block with-errors"></span>
             </div>
