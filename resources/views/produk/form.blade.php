@@ -1,6 +1,6 @@
 <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
     <div class="modal-dialog modal-lg" role="document">
-        <form action="" method="post" class="form-horizontal">
+        <form action="" method="post" class="form-horizontal" class="form-produk" id="edit-form" enctype="multipart/form-data">
             @csrf
             @method('post')
 
@@ -12,9 +12,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label for="photo" class="col-lg-2 col-lg-offset-1 control-label">Profil</label>
+                        <label for="photo" class="col-lg-2 col-lg-offset-1 control-label">Foto Produk</label>
                         <div class="col-lg-6">
-                            <input type="file" name="photo" class=" form-control" id="photo" onchange="preview('.tampil-foto', this.files[0])">
+                            <input type="file" name="photo" class=" form-control" id="photo">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>

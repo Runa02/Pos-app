@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{
     DashboardController,
+    FrontController,
     KategoriController,
     LaporanController,
     ProdukController,
@@ -32,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
-});
+})->name('login.page');
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/send-register', [RegisterController::class, 'store'])->name('send-register');
 
@@ -50,12 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/produk/cetak-barcode', [ProdukController::class, 'cetakBarcode'])->name('produk.cetak_barcode');
         Route::resource('/produk', ProdukController::class);
 
-        Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
-        Route::post('/member/cetak-member', [MemberController::class, 'cetakMember'])->name('member.cetak_member');
-        Route::resource('/member', MemberController::class);
-
-        Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data');
-        Route::resource('/supplier', SupplierController::class);
+        // Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data');
+        // Route::resource('/supplier', SupplierController::class);
 
         Route::get('/pengeluaran/data', [PengeluaranController::class, 'data'])->name('pengeluaran.data');
         Route::resource('/pengeluaran', PengeluaranController::class);
@@ -94,6 +91,10 @@ Route::group(['middleware' => 'auth'], function () {
         // Route::post('/role/update/{id}', [RoleController::class, 'update'])->name('role.update');
         Route::delete('/role/delete/{id}', [RoleController::class, 'destroy'])->name('role.delete');
         Route::resource('/role', RoleController::class);
+
+        Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
+        Route::post('/member/cetak-member', [MemberController::class, 'cetakMember'])->name('member.cetak_member');
+        Route::resource('/member', MemberController::class);
     });
 
     Route::group(['middleware' => 'role_id:1'], function () {
@@ -113,4 +114,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/profil', [UserController::class, 'profil'])->name('user.profil');
         Route::post('/profil', [UserController::class, 'updateProfil'])->name('user.update_profil');
     });
+
 });
+    
+Route::group(['middleware' => 'role_id:1,2,3'], function() {
+    Route::get('/front/cart', [FrontController::class, 'cart'])->name('front.cart');
+});
+Route::get('/front', [FrontController::class, 'index'])->name('front.index');

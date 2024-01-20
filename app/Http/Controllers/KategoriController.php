@@ -14,27 +14,29 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        return view('kategori.index');
+        $currentUser = auth()->user();
+        $kategori = Kategori::where('user_id', $currentUser->id)->get();
+        return view('kategori.index', compact('kategori'));
     }
 
-    public function data()
-    {
-        $kategori = Kategori::orderBy('id_kategori', 'desc')->get();
+    // public function data()
+    // {
+    //     $kategori = Kategori::orderBy('id_kategori', 'desc')->get();
 
-        return datatables()
-            ->of($kategori)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($kategori) {
-                return '
-                <div class="btn-group">
-                    <button onclick="editForm(`'. route('kategori.update', $kategori->id_kategori) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
-                    <button onclick="deleteData(`'. route('kategori.destroy', $kategori->id_kategori) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
-                </div>
-                ';
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
-    }
+    //     return datatables()
+    //         ->of($kategori)
+    //         ->addIndexColumn()
+    //         ->addColumn('aksi', function ($kategori) {
+    //             return '
+    //             <div class="btn-group">
+    //                 <button onclick="editForm(`'. route('kategori.update', $kategori->id_kategori) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
+    //                 <button onclick="deleteData(`'. route('kategori.destroy', $kategori->id_kategori) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+    //             </div>
+    //             ';
+    //         })
+    //         ->rawColumns(['aksi'])
+    //         ->make(true);
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -54,11 +56,21 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $kategori = new Kategori();
-        $kategori->nama_kategori = $request->nama_kategori;
+        $user = auth()->user();
+        
+        $request->validate([
+            'nama_kategori' => 'required'
+        ]);
+
+        $kategori = new Kategori([
+            'nama_kategori' => $request->nama_kategori
+        ]);
+
+        $kategori->user()->associate($user);
+
         $kategori->save();
 
-        return response()->json('Data berhasil disimpan', 200);
+        return redirect()->route('kategori.index')->with('message', 'Data berhasil disimpan');
     }
 
     /**
@@ -98,7 +110,7 @@ class KategoriController extends Controller
         $kategori->nama_kategori = $request->nama_kategori;
         $kategori->update();
 
-        return response()->json('Data berhasil disimpan', 200);
+        return redirect()->route('kategori.index')->with('message', 'Data berhasil diperbarui');
     }
 
     /**
@@ -112,6 +124,6 @@ class KategoriController extends Controller
         $kategori = Kategori::find($id);
         $kategori->delete();
 
-        return response(null, 204);
+        return redirect()->route('kategori.index')->with('message', 'Data berhasil dihapus');
     }
 }

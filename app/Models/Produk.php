@@ -22,4 +22,13 @@ class Produk extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function getPhotoAttribute()
+    {
+        // Assuming 'photo' is the name of the attribute in your database
+        // Adjust the path accordingly based on your database structure
+        $photoPath = $this->attributes['photo'];
+
+        // Assuming you store photos in the 'storage/app/public' directory
+        return asset('storage/' . $photoPath);
+    }
 }

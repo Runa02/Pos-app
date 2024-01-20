@@ -106,26 +106,26 @@
                     <i class="fa fa-cubes"></i> <span>Produk</span>
                 </a>
             </li>
+            <li class="header">PENJUALAN</li>
             <li>
-                <a href="{{ route('supplier.index') }}">
-                    <i class="fa fa-truck"></i> <span>Supplier</span>
+                <a href="{{ route('laporan.index') }}">
+                    <i class="fa fa-shopping-cart"></i> <span>Acc Penjualan</span>
                 </a>
             </li>
-            <li class="header">REPORT</li>
             <li>
                 <a href="{{ route('laporan.index') }}">
                     <i class="fa fa-file-pdf-o"></i> <span>Laporan</span>
                 </a>
             </li>
             <li class="header">SYSTEM</li>
-            <li>
+            {{-- <li>
                 <a href="{{ route('user.index') }}">
                     <i class="fa fa-users"></i> <span>User</span>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{ route("setting.index") }}">
-                    <i class="fa fa-cogs"></i> <span>Pengaturan</span>
+                    <i class="fa fa-cogs"></i> <span>Pengaturan Toko</span>
                 </a>
             </li>
             @endif
