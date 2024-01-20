@@ -10,7 +10,7 @@ class FrontController extends Controller
     public function index()
     {
         $produkfront = Produk::all();
-        return view('layouts.index', compact('produkfront'));
+        return view('front.content', compact('produkfront'));
     }
 
     public function cart()

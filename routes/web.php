@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
-});
+})->name('login.page');
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/send-register', [RegisterController::class, 'store'])->name('send-register');
 
@@ -115,6 +115,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/profil', [UserController::class, 'updateProfil'])->name('user.update_profil');
     });
 
-    Route::get('/front', [FrontController::class, 'index'])->name('front.index');
+});
+    
+Route::group(['middleware' => 'role_id:1,2,3'], function() {
     Route::get('/front/cart', [FrontController::class, 'cart'])->name('front.cart');
 });
+Route::get('/front', [FrontController::class, 'index'])->name('front.index');
