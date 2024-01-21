@@ -4,6 +4,7 @@ use App\Http\Controllers\{
     DashboardController,
     FrontController,
     KategoriController,
+    KeranjangController,
     LaporanController,
     ProdukController,
     MemberController,
@@ -19,6 +20,7 @@ use App\Http\Controllers\{
 };
 use App\Http\Controllers\AccPenjualanController;
 use App\Http\Controllers\RegisterController;
+use App\Models\Keranjang;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -130,5 +132,7 @@ Route::group(['middleware' => 'role_id:1,3'], function () {
     Route::get('/', [FrontController::class, 'index'])->name('front.index');
     Route::post('/send-accpenjualan/{id}', [AccPenjualanController::class, 'Send'])->name('send-accpenjualan');
 
+    Route::get('/cart/add/{id}', [KeranjangController::class, 'addcart'])->name('cart.add');
+    Route::delete('/delete/{cartItem}', [KeranjangController::class, 'destroy'])->name('cart.destroy');
 });
 

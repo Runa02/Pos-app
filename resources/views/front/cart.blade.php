@@ -2,48 +2,78 @@
 
 @section('content')
 <div class="container">
-  <div class="row">
-
-    <div class="col-8">
-      <div class="card">
-          <div class="card-body">
-              <h5>Keranjang</h5>
-              <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>Firstname</th>
-                      <th>Lastname</th>
-                      <th>Email</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>John</td>
-                          <td>Doe</td>
-                          <td>john@example.com</td>
-                      </tr>
-                      <tr>
-                          <td>Mary</td>
-                          <td>Moe</td>
-                          <td>mary@example.com</td>
-                      </tr>
-                    <tr>
-                      <td>July</td>
-                      <td>Dooley</td>
-                      <td>july@example.com</td>
-                  </tr>
-              </tbody>
-                </table>
-              </div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="card">
-        <div class="card-body">
-          <h5>Checkout</h5>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Keranjang</h5>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nama Produk</th>
+                                <th>Harga Jual</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($cartItems as $cartItem)
+                                <tr>
+                                    <td><img class="img-thumbnail" width="150" height="150" src="{{ $cartItem->produk->photo }}" /></td>
+                                    <td>{{ $cartItem->produk->nama_produk }}</td>
+                                    <td>{{ $cartItem->produk->harga_jual }}</td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-6">
+                                              <form method="post" class="mb-2">
+                                                @csrf
+                                                @method('put')
+                                                <input type="number" style="width: 100px;" name="stok" value="{{ $cartItem->stok }}" min="1" class="form-control">
+                                            </form>
+                                            </div>
+                                            <div class="col-3">
+                                              <form method="post" action="{{ route('cart.destroy', $cartItem->id) }}" id="deleteForm{{ $cartItem->id }}">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn btn-danger"><i class="bi-trash"></i></button>
+                                              </form>
+                                            </div>
+                                            <div class="col-3">
+                                              <form method="post">
+                                                <button type="submit" class="btn btn-primary"><i class="bi-check"></i></button>
+                                              </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4">Keranjang kosong.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Detail Informasi</h5>
+                    <p class="total-harga"><strong>Total Bayar: </strong>{{ $cartItem->produk->harga_jual * $cartItem->stok }}</span></p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
+<script>
+    function confirmDelete(cartItemId) {
+        var result = confirm('Apakah Anda yakin ingin menghapus produk dari keranjang?');
+
+        if (result) {
+            document.getElementById('deleteForm' + cartItemId).submit();
+        }
+    }
+</script>
 @endsection

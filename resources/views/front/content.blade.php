@@ -32,7 +32,7 @@
                         <button type="submit" class="btn btn-warning">Checkout</button>
                     </form>
                     <div>
-                        <a class="btn btn-outline-dark mt-auto" href="#"><i class="bi-cart-fill"></i></a>
+                        <a class="btn btn-outline-dark mt-auto" href="{{ route('cart.add', ['id' => $product->id]) }}"><i class="bi-cart-fill"></i></a>
                     </div>
                 </div>
             </div>
