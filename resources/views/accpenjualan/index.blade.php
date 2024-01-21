@@ -1,60 +1,66 @@
 @extends('layouts.master')
 
 @section('title')
-    Daftar Kategori
+Daftar Penjualan
 @endsection
 
 @section('breadcrumb')
-    @parent
-    <li class="active">Daftar Kategori</li>
+@parent
+<li class="active">Daftar Penjualan</li>
 @endsection
 
 @section('content')
 <div class="row">
     @if (Session::has('message'))
-            <div class="alert alert-success" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{{ Session::get('message') }}!</strong>
-        </div>
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <strong>{{ Session::get('message') }}!</strong>
+    </div>
     @endif
     @if (Session::has('error'))
-            <div class="alert alert-success" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{{ Session::get('error') }}!</strong>
-        </div>
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <strong>{{ Session::get('error') }}!</strong>
+    </div>
     @endif
     <div class="col-lg-12">
         <div class="box">
-            <div class="box-header with-border">
-                <button onclick="addForm('{{ route('kategori.store') }}')" class="btn btn-success btn-flat"><i class="fa fa-plus-circle"></i> Tambah</button>
-            </div>
             <div class="box-body table-responsive">
                 <form action="" method="post" class="form-produk">
                     @csrf
                     <table class="table table-stiped table-bordered">
                         <thead>
                             <th width="5%">No</th>
-                            <th>Nama Kategori</th>
+                            <th>Id Penjualan</th>
+                            <th>Kode Produk</th>
+                            <th>Nama Produk</th>
+                            <th>Harga Produk</th>
+                            <th>Status</th>
                             <th width="15%"><i class="fa fa-cog"></i></th>
                         </thead>
                         <tbody>
-                            @foreach ($kategori as $kategoris)
+                            @foreach ($data as $penjualan)
                             <tr>
-                            <td>{{$loop->iteration }}</td>
-                            <td>{{ $kategoris->nama_kategori }}</td>
-                            <td class="text-center align-middle" >
-                                <a onclick="editForm('{{ route('kategori.update', $kategoris->id_kategori) }}')" class="btn btn-warning">
-                                    <i class="fa fa-pencil"></i>
-                                    Edit
-                                </a>
-                                <a onclick="deleteData('{{ route('kategori.destroy', $kategoris->id_kategori) }}')" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                    Delete
-                                </a>
+                                <td>{{$loop->iteration }}</td>
+                                <td>{{ $penjualan->id }}</td>
+                                <td>{{ $penjualan->produk->nama_produk }}</td>
+                                <td>{{ $penjualan->produk->kode_produk }}</td>
+                                <td>{{ $penjualan->produk->harga_jual }}</td>
+                                <td>
+                                    <a class="btn btn-warning" role="button">
+                                        {{ $penjualan->status }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-success" role="button">
+                                        Terima
+                                    </a>
+                                </td>
 
-                            </td>
                             </tr>
-                        @endforeach
+                            @endforeach
                         </tbody>
                     </table>
                 </form>
@@ -133,9 +139,9 @@
     function deleteData(url) {
         if (confirm('Yakin ingin menghapus data terpilih?')) {
             $.post(url, {
-                    '_token': $('[name=csrf-token]').attr('content'),
-                    '_method': 'delete'
-                })
+                '_token': $('[name=csrf-token]').attr('content'),
+                '_method': 'delete'
+            })
                 .done((response) => {
                     location.reload();
                     alert('berhasil menghapus data');

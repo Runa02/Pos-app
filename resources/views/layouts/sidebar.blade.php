@@ -12,7 +12,7 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
-        
+
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
@@ -93,7 +93,7 @@
                 </a>
             </li>
             @endif
-            
+
             @if (auth()->user()->role_id == 2)
             <li class="header">MASTER</li>
             <li>
@@ -108,7 +108,7 @@
             </li>
             <li class="header">PENJUALAN</li>
             <li>
-                <a href="{{ route('laporan.index') }}">
+                <a href="{{ route('accpenjualan') }}">
                     <i class="fa fa-shopping-cart"></i> <span>Acc Penjualan</span>
                 </a>
             </li>

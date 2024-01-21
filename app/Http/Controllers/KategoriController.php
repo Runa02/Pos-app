@@ -57,13 +57,14 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-        
+
         $request->validate([
-            'nama_kategori' => 'required'
+            'nama_kategori' => 'required',
         ]);
 
         $kategori = new Kategori([
-            'nama_kategori' => $request->nama_kategori
+            'nama_kategori' => $request->nama_kategori,
+            'user_id' => $user
         ]);
 
         $kategori->user()->associate($user);

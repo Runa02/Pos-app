@@ -27,13 +27,14 @@
                 </div>
                 <!-- Product actions-->
                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent d-flex justify-content-between">
-                    <div class="flex-grow-1">
-                        <a class="btn btn-outline-dark mt-auto w-100" href="#">Checkout</a>
-                    </div>
+                    <form action="{{ route('send-accpenjualan', $product->id_produk) }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-warning">Checkout</button>
+                    </form>
                     <div>
                         <a class="btn btn-outline-dark mt-auto" href="#"><i class="bi-cart-fill"></i></a>
                     </div>
-                </div>                                                        
+                </div>
             </div>
         </div>
         @endforeach
