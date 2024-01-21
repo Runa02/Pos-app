@@ -4,6 +4,7 @@ use App\Http\Controllers\{
     DashboardController,
     FrontController,
     KategoriController,
+    KeranjangController,
     LaporanController,
     ProdukController,
     MemberController,
@@ -18,6 +19,7 @@ use App\Http\Controllers\{
     UserController,
 };
 use App\Http\Controllers\RegisterController;
+use App\Models\Keranjang;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -119,5 +121,7 @@ Route::group(['middleware' => 'auth'], function () {
     
 Route::group(['middleware' => 'role_id:1,2,3'], function() {
     Route::get('/front/cart', [FrontController::class, 'cart'])->name('front.cart');
+    Route::get('/cart/add/{id}', [KeranjangController::class, 'addcart'])->name('cart.add');
+    Route::delete('/delete/{cartItem}', [KeranjangController::class, 'destroy'])->name('cart.destroy');
 });
 Route::get('/front', [FrontController::class, 'index'])->name('front.index');

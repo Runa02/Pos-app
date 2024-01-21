@@ -63,11 +63,11 @@
                             <td>{{ $produks->diskon }}</td>
                             <td>{{ $produks->stok }}</td>
                             <td class="text-center align-middle" >
-                                <a onclick="editForm('{{ route('produk.update', $produks->id_produk) }}')" class="btn btn-warning">
+                                <a onclick="editForm('{{ route('produk.update', $produks->id) }}')" class="btn btn-warning">
                                     <i class="fa fa-pencil"></i>
                                     Edit
                                 </a>
-                                <a onclick="deleteData('{{ route('produk.destroy', $produks->id_produk) }}')" class="btn btn-danger">
+                                <a onclick="deleteData('{{ route('produk.destroy', $produks->id) }}')" class="btn btn-danger">
                                     <i class="fa fa-trash"></i>
                                     Delete
                                 </a>

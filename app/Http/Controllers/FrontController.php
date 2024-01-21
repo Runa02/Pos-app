@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FrontController extends Controller
 {
@@ -15,6 +17,8 @@ class FrontController extends Controller
 
     public function cart()
     {
-        return view('front.cart');
+        $cartItems = Keranjang::where('user_id', Auth::id())->get();
+
+        return view('front.cart', compact('cartItems'));
     }
 }
