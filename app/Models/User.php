@@ -73,6 +73,10 @@ class User extends Authenticatable
     }
     public function keranjang()
     {
-        return $this->belongsTo(Keranjang::class, 'keranjang_id');
+        return $this->hasMany(Keranjang::class, 'user_id', 'id');
+    }
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class, 'user_id', 'id');
     }
 }

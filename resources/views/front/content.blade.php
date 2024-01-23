@@ -10,7 +10,22 @@
     </div>
 </header>
 <div class="container px-4 px-lg-5 mt-5">
-    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+    <form action="{{ route('front.index') }}" method="GET">
+        <div class="row g-2">
+            <div class="col-4">
+                <label for="min_price">Min Price:</label>
+                <input type="number" class="form-control" name="min_price" id="min_price" value="{{ $minPrice }}">
+            </div>
+            <div class="col-4">
+                <label for="max_price">Max Price:</label>
+                <input type="number" class="form-control" name="max_price" id="max_price" value="{{ $maxPrice }}">
+            </div>
+            <div class="col-4 pt-4">
+                <button class="btn btn-primary" type="submit">Filter</button>
+            </div>
+        </form>
+    </div>
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mt-5">
         @foreach($produkfront as $product)
         <div class="col mb-5">
             <div class="card">
