@@ -16,7 +16,7 @@ class CreateAccPenjualansTable extends Migration
         Schema::create('acc_penjualans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('produk_id')->constrained();
+            $table->foreignId('id_produk')->constrained();
             $table->enum('status', ['Menunggu', 'Terkirim'])->default('Menunggu');
             $table->timestamps();
         });

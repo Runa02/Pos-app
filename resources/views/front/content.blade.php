@@ -13,11 +13,11 @@
     <form action="{{ route('front.index') }}" method="GET">
         <div class="row g-2">
             <div class="col-4">
-                <label for="min_price">Min Price:</label>
+                <label for="min_price">Minimal Harga:</label>
                 <input type="number" class="form-control" name="min_price" id="min_price" value="{{ $minPrice }}">
             </div>
             <div class="col-4">
-                <label for="max_price">Max Price:</label>
+                <label for="max_price">Maximal Harga:</label>
                 <input type="number" class="form-control" name="max_price" id="max_price" value="{{ $maxPrice }}">
             </div>
             <div class="col-4 pt-4">
