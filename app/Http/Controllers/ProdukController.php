@@ -106,7 +106,7 @@ class ProdukController extends Controller
      */
     public function show($id)
     {
-        $produk = Produk::all($id);
+        $produk = Produk::find($id);
 
         return response()->json($produk);
     }
@@ -198,7 +198,7 @@ class ProdukController extends Controller
         $produk = Produk::find($id);
         $produk->delete();
 
-        return redirect()->route('produk.index')->with('message', 'berhasil menghapus project');
+        return redirect()->route('produk.index')->with('message', 'berhasil menghapus produk');
     }
 
     public function deleteSelected(Request $request)

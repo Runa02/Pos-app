@@ -6,8 +6,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -22,16 +20,30 @@
             <!-- Move these buttons to the right -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
+                    @auth
                     <a class="btn btn-outline-dark mr-2" href="{{ route('front.cart') }}">
                         <i class="bi-cart-fill me-1"></i>
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">{{ count(auth()->user()->keranjang ?? []) }}</span>
                     </a>
+                    @else
+                        <!-- Tampilkan tombol cart tanpa jumlah saat pengguna belum terotentikasi -->
+                        <a class="btn btn-outline-dark mr-2" href="{{ route('front.cart') }}">
+                            <i class="bi-cart-fill me-1"></i>
+                        </a>
+                    @endauth
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-outline-dark mr-2" type="submit">
+                    @auth
+                    <a class="btn btn-outline-dark mr-2" href="{{ route('wishlist.index') }}">
+                        <i class="bi-heart-fill me-1"></i>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">{{ count(auth()->user()->wishlist ?? []) }}</span>
+                    </a>
+                    @else
+                    <a class="btn btn-outline-dark mr-2" href="{{ route('wishlist.index') }}">
                         <i class="bi-heart-fill me-1"></i>
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                    </button>
+                    </a>
+                    @endauth
                 </li>
                 <li class="nav-item">
                     @auth

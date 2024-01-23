@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Keranjang extends Model
+class Wishlist extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['produk_id', 'user_id', 'total_harga', 'stok'];
+    protected $fillable = ['produk_id', 'user_id'];
 
     public function produk()
     {
