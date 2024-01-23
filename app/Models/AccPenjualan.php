@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kategori extends Model
+class AccPenjualan extends Model
 {
     use HasFactory;
 
-    protected $table = 'kategori';
-    protected $primaryKey = 'id_kategori';
+    protected $table = 'acc_penjualans';
     protected $guarded = [];
 
-    protected $fillable = ['user_id', 'nama_kategori'];
+    protected $fillable = ['user_id', 'produk_id','status'];
 
     public function user()
     {
@@ -21,6 +20,6 @@ class Kategori extends Model
     }
     public function produk()
     {
-        return $this->hasMany(Produk::class);
+        return $this->belongsTo(Produk::class, 'produk_id');
     }
 }

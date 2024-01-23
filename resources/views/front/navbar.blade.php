@@ -59,7 +59,7 @@
                         </div>
                     @else
                         <!-- Show Sign In link when the user is not authenticated -->
-                        <a class="btn btn-outline-dark" href="{{ route('login.page') }}">
+                        <a class="btn btn-outline-dark" href="{{ route('login') }}">
                             Sign In
                         </a>
                     @endauth

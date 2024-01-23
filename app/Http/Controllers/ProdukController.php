@@ -19,15 +19,13 @@ class ProdukController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Kategori::all();
-        $categoryList = $categories->pluck('nama_kategori', 'id_kategori');
-
-        // Retrieve the authenticated user (current seller)
         $currentUser = auth()->user();
 
-        // Use where to filter products based on the current seller's user_id
-        $produk = Produk::where('user_id', $currentUser->id)->get();
-        
+        $produk = Produk::with('kategori')->where('user_id', $currentUser->id)->get();
+
+        $kategori = Kategori::where('user_id', $currentUser->id)->get();
+        $categoryList = $kategori->pluck('nama_kategori', 'id_kategori');
+
         return view('produk.index', compact('produk', 'categoryList'));
     }
 

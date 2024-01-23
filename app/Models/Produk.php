@@ -32,6 +32,14 @@ class Produk extends Model
         return $this->hasMany(Wishlist::class, 'produk_id');
     }
 
+    public function acc_penjualan()
+    {
+        return $this->hasMany(AccPenjualan::class);
+    }
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
     public function getPhotoAttribute()
     {
         // Assuming 'photo' is the name of the attribute in your database

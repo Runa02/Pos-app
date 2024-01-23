@@ -30,8 +30,8 @@
                         <div class="col-lg-6">
                             <select name="id_kategori" id="id_kategori" class="form-control" required>
                                 <option value="">Pilih Kategori</option>
-                                @foreach ($categoryList as $key => $item)
-                                <option value="{{ $key }}">{{ $item }}</option>
+                                @foreach ($categoryList as $item)
+                                <option value="{{ $item }}">{{ $item }}</option>
                                 @endforeach
                             </select>
                             <span class="help-block with-errors"></span>

@@ -18,6 +18,7 @@ use App\Http\Controllers\{
     SupplierController,
     UserController,
 };
+use App\Http\Controllers\AccPenjualanController;
 use App\Http\Controllers\RegisterController;
 use App\Models\Keranjang;
 use Illuminate\Support\Facades\Route;
@@ -33,9 +34,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('login');
-})->name('login.page');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/send-register', [RegisterController::class, 'store'])->name('send-register');
 
@@ -53,8 +54,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/produk/cetak-barcode', [ProdukController::class, 'cetakBarcode'])->name('produk.cetak_barcode');
         Route::resource('/produk', ProdukController::class);
 
-        // Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data');
-        // Route::resource('/supplier', SupplierController::class);
+        Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data');
+        Route::resource('/supplier', SupplierController::class);
 
         Route::get('/pengeluaran/data', [PengeluaranController::class, 'data'])->name('pengeluaran.data');
         Route::resource('/pengeluaran', PengeluaranController::class);
@@ -73,6 +74,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
         Route::get('/penjualan/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
         Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+
+        Route::get('/acc-penjualan', [AccPenjualanController::class, 'Index'])->name('accpenjualan');
+        Route::get('/tambah-accpenjualan', [AccPenjualanController::class, 'Tambah'])->name('tambahaccpenjualan');
+        Route::get('/edit-accpenjualan/{id}', [AccPenjualanController::class, 'Edit'])->name('edit-accpenjualan');
+        Route::post('/update-accpenjualan/{id}', [AccPenjualanController::class, 'Update'])->name('update-accpenjualan');
+        Route::DELETE('/delete-accpenjualan/{id}', [AccPenjualanController::class, 'Delete'])->name('delete-accpenjualan');
+
     });
 
     Route::group(['middleware' => 'role_id:1'], function () {
@@ -118,10 +126,13 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 });
-    
-Route::group(['middleware' => 'role_id:1,2,3'], function() {
+
+Route::group(['middleware' => 'role_id:1,3'], function () {
     Route::get('/front/cart', [FrontController::class, 'cart'])->name('front.cart');
     Route::get('/produk/detail/{id}', [FrontController::class, 'detailcontent'])->name('produk.detail');
+    Route::get('/', [FrontController::class, 'index'])->name('front.index');
+    Route::post('/send-accpenjualan/{id}', [AccPenjualanController::class, 'Send'])->name('send-accpenjualan');
+
     Route::get('/cart/add/{id}', [KeranjangController::class, 'addcart'])->name('cart.add');
     Route::delete('/delete/{cartItem}', [KeranjangController::class, 'destroy'])->name('cart.destroy');
     
@@ -129,4 +140,4 @@ Route::group(['middleware' => 'role_id:1,2,3'], function() {
     Route::get('/wishlist/add/{id}', [FrontController::class, 'addwishlist'])->name('wishlist.add');
     Route::delete('delete/wishlist/{item}', [FrontController::class, 'deleteWishlist'])->name('wishlist.destroy');
 });
-Route::get('/front', [FrontController::class, 'index'])->name('front.index');
+

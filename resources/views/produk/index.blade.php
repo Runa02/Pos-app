@@ -56,7 +56,7 @@
                                 <img src="{{ $produks->photo }}" class="img-thumbnail" width="50" height="50">
                             </td>
                             <td>{{ $produks->nama_produk }}</td>
-                            <td>{{ $produks->id_kategori }}</td>
+                            <td>{{ $produks->kategori->nama_kategori }}</td>
                             <td>{{ $produks->merk }}</td>
                             <td>{{ $produks->harga_beli }}</td>
                             <td>{{ $produks->harga_jual }}</td>
