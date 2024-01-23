@@ -1,6 +1,6 @@
 <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
     <div class="modal-dialog modal-lg" role="document">
-        <form action="" method="post" class="form-horizontal" class="form-produk" id="edit-form" enctype="multipart/form-data">
+        <form action="" method="post" class="form-horizontal form-produk" id="edit-form" enctype="multipart/form-data">
             @csrf
             @method('post')
 
@@ -21,7 +21,8 @@
                     <div class="form-group row">
                         <label for="nama_produk" class="col-lg-2 col-lg-offset-1 control-label">Nama</label>
                         <div class="col-lg-6">
-                            <input type="text" name="nama_produk" id="nama_produk" class="form-control" required autofocus>
+                            <input type="text" name="nama_produk" id="nama_produk" class="form-control" required
+                                autofocus>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
@@ -30,8 +31,8 @@
                         <div class="col-lg-6">
                             <select name="id_kategori" id="id_kategori" class="form-control" required>
                                 <option value="">Pilih Kategori</option>
-                                @foreach ($categoryList as $item)
-                                <option value="{{ $item }}">{{ $item }}</option>
+                                @foreach ($categoryList as $id_kategori => $nama_kategori)
+                                <option value="{{ $id_kategori }}">{{ $nama_kategori }}</option>
                                 @endforeach
                             </select>
                             <span class="help-block with-errors"></span>
@@ -82,7 +83,8 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-flat btn-primary"><i class="fa fa-save"></i> Simpan</button>
-                    <button type="button" class="btn btn-sm btn-flat btn-warning" data-dismiss="modal"><i class="fa fa-arrow-circle-left"></i> Batal</button>
+                    <button type="button" class="btn btn-sm btn-flat btn-warning" data-dismiss="modal"><i
+                            class="fa fa-arrow-circle-left"></i> Batal</button>
                 </div>
             </div>
         </form>

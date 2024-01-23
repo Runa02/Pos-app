@@ -12,7 +12,7 @@ class AccPenjualan extends Model
     protected $table = 'acc_penjualans';
     protected $guarded = [];
 
-    protected $fillable = ['user_id', 'produk_id','status'];
+    protected $fillable = ['user_id', 'produk_id','status','jumlah','pesan','total_bayar'];
 
     public function user()
     {

@@ -28,15 +28,15 @@ Daftar Penjualan
     <div class="col-lg-12">
         <div class="box">
             <div class="box-body table-responsive">
-                <form action="" method="post" class="form-produk">
-                    @csrf
                     <table class="table table-stiped table-bordered">
                         <thead>
                             <th width="5%">No</th>
-                            <th>Id Penjualan</th>
                             <th>Kode Produk</th>
                             <th>Nama Produk</th>
                             <th>Harga Produk</th>
+                            <th>Jumlah Produk</th>
+                            <th>Total Bayar</th>
+                            <th>Pesan Dari Pembeli</th>
                             <th>Status</th>
                             <th width="15%"><i class="fa fa-cog"></i></th>
                         </thead>
@@ -44,26 +44,32 @@ Daftar Penjualan
                             @foreach ($data as $penjualan)
                             <tr>
                                 <td>{{$loop->iteration }}</td>
-                                <td>{{ $penjualan->id }}</td>
-                                <td>{{ $penjualan->produk->nama_produk }}</td>
                                 <td>{{ $penjualan->produk->kode_produk }}</td>
+                                <td>{{ $penjualan->produk->nama_produk }}</td>
                                 <td>{{ $penjualan->produk->harga_jual }}</td>
+                                <td>{{ $penjualan->jumlah }}</td>
+                                <td>{{ $penjualan->total_bayar }}</td>
+                                <td>{{ $penjualan->pesan }}</td>
                                 <td>
-                                    <a class="btn btn-warning" role="button">
-                                        {{ $penjualan->status }}
-                                    </a>
+                                    @if ($penjualan->status == 'Terkirim')
+                                    <span class="btn btn-success">{{ $penjualan->status }}</span>
+                                    @else
+                                    <a class="btn btn-warning" role="button">{{ $penjualan->status }}</a>
+                                    @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-success" role="button">
-                                        Terima
-                                    </a>
+                                    @if ($penjualan->status != 'Terkirim')
+                                    <form action="{{ route('update-accpenjualan', ['id' => $penjualan->id]) }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success">Terima</button>
+                                    </form>
+                                    @endif
                                 </td>
 
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                </form>
             </div>
         </div>
     </div>

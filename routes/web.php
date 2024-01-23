@@ -107,7 +107,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/member', MemberController::class);
     });
 
-    Route::group(['middleware' => 'role_id:1'], function () {
+    Route::group(['middleware' => 'role_id:1,2'], function () {
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
         Route::get('/laporan/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDF'])->name('laporan.export_pdf');

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AccPenjualan;
+use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccPenjualanController extends Controller
 {
@@ -11,18 +13,35 @@ class AccPenjualanController extends Controller
     {
         $pagination = 5;
 
-        $data = AccPenjualan::whereHas('produk', function ($q) use ($request) {
-            $q->where('nama_produk', 'LIKE', '%' . $request->search . '%');
-        })->orderBy('id', 'asc')->paginate($pagination);
+        $userId = Auth::id();
+
+        $data = AccPenjualan::whereHas('produk', function ($q) use ($request, $userId) {
+            $q->where('nama_produk', 'LIKE', '%' . $request->search . '%')
+                ->where('user_id', $userId); // Menambahkan kondisi untuk memastikan hanya produk milik user yang login
+        })
+            ->orderBy('id', 'asc')
+            ->paginate($pagination);
+
         return view('accpenjualan.index', compact('data'));
     }
     public function Update(Request $request, $id)
     {
         $penjualan = AccPenjualan::find($id);
-        $penjualan->update($request->all());
-        return redirect()->route('accpenjualan')->with('message', 'Berhasil Memperbarui Data');
 
+        if ($penjualan->jumlah > $penjualan->produk->stok) {
+            return redirect()->route('accpenjualan')->with('error', 'Stok tidak cukup untuk memproses pesanan.');
+        }
+
+        $penjualan->status = 'Terkirim';
+        $penjualan->save();
+
+        $produk = $penjualan->produk;
+        $produk->stok -= $penjualan->jumlah;
+        $produk->save();
+
+        return redirect()->route('accpenjualan')->with('message', 'Berhasil Memperbarui Data');
     }
+
     public function Delete($id)
     {
         $data = AccPenjualan::find($id);
@@ -37,10 +56,23 @@ class AccPenjualanController extends Controller
     {
         $user_id = auth()->user()->id;
 
+        $request->validate([
+            'pesan' => 'required|string',
+            'jumlah' => 'required',
+
+        ]);
+
+        $produk = Produk::findOrFail($id);
+
+        $total_bayar = $request->jumlah * $produk->harga_jual;
+
         $accPenjualan = new AccPenjualan([
             'user_id' => $user_id,
-            'id_produk' => $id,
+            'produk_id' => $id,
             'status' => 'Menunggu',
+            'pesan' => $request->pesan,
+            'jumlah' => $request->jumlah,
+            'total_bayar' => $total_bayar,
         ]);
 
         $accPenjualan->save();
