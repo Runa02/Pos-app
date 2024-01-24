@@ -24,7 +24,7 @@
                         <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="d-grid gap-2">
-                                <a class="btn btn-outline-primary mt-auto" href="{{ route('cart.add', ['id' => $items->id]) }}">Keranjang</i></a>
+                                <a class="btn btn-outline-primary mt-auto" href="{{ route('cart.add', ['id' => $items->produk->id]) }}">Keranjang</i></a>
                             </div>
                             <div class="d-grid gap-2 mt-2">
                                 <form method="post" action="{{ route('wishlist.destroy', $items->id) }}" id="deleteForm{{ $items->id }}">

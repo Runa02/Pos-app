@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccPenjualan;
 use App\Models\Keranjang;
 use App\Models\Produk;
 use App\Models\Wishlist;
@@ -25,7 +26,6 @@ class FrontController extends Controller
         $produkfront = $produkfront->get();
         return view('front.content', compact('produkfront', 'minPrice', 'maxPrice'));
     }
-
     public function cart()
     {
         $cartItems = Keranjang::where('user_id', Auth::id())->get();
@@ -72,5 +72,17 @@ class FrontController extends Controller
         $item->delete();
 
         return redirect()->route('wishlist.index');
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('front.profile', compact('user'));
+    }
+
+    public function showorders()
+    {
+        $orders = AccPenjualan::with('produk')->where('user_id', auth()->id())->get();
+        return view('front.order', ['orders' => $orders]);
     }
 }

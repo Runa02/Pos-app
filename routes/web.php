@@ -136,6 +136,11 @@ Route::group(['middleware' => 'role_id:1,3'], function () {
     Route::get('/cart/add/{id}', [KeranjangController::class, 'addcart'])->name('cart.add');
     Route::delete('/delete/{cartItem}', [KeranjangController::class, 'destroy'])->name('cart.destroy');
     
+    Route::get('/profile', [FrontController::class, 'profile'])->name('index.profile');
+    Route::get('/profile/orders', [FrontController::class, 'showorders'])->name('profile.orders');
+
+    Route::put('/profile/update/{id}', [UserController::class, 'updateuser'])->name('profile.update');
+
     Route::get('/wishlist', [FrontController::class, 'wishlist'])->name('wishlist.index');
     Route::get('/wishlist/add/{id}', [FrontController::class, 'addwishlist'])->name('wishlist.add');
     Route::delete('delete/wishlist/{item}', [FrontController::class, 'deleteWishlist'])->name('wishlist.destroy');
