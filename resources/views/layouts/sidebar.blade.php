@@ -102,6 +102,11 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('stok.index') }}">
+                    <i class="fa fa-cube"></i> <span>Stok Masuk</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('produk.index') }}">
                     <i class="fa fa-cubes"></i> <span>Produk</span>
                 </a>

@@ -20,6 +20,7 @@ use App\Http\Controllers\{
 };
 use App\Http\Controllers\AccPenjualanController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\StokController;
 use App\Models\Keranjang;
 use Illuminate\Support\Facades\Route;
 
@@ -108,6 +109,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => 'role_id:1,2'], function () {
+        Route::resource('/stok', StokController::class);
+
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
         Route::get('/laporan/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDF'])->name('laporan.export_pdf');
@@ -132,10 +135,12 @@ Route::group(['middleware' => 'role_id:1,3'], function () {
     Route::get('/produk/detail/{id}', [FrontController::class, 'detailcontent'])->name('produk.detail');
     Route::get('/', [FrontController::class, 'index'])->name('front.index');
     Route::post('/send-accpenjualan/{id}', [AccPenjualanController::class, 'Send'])->name('send-accpenjualan');
+    Route::post('/add-accpenjualan', [AccPenjualanController::class, 'add'])->name('add-accpenjualan');
 
     Route::get('/cart/add/{id}', [KeranjangController::class, 'addcart'])->name('cart.add');
+    Route::post('/cart/update/{id}', [KeranjangController::class, 'updatecart'])->name('cart.update');
     Route::delete('/delete/{cartItem}', [KeranjangController::class, 'destroy'])->name('cart.destroy');
-    
+
     Route::get('/wishlist', [FrontController::class, 'wishlist'])->name('wishlist.index');
     Route::get('/wishlist/add/{id}', [FrontController::class, 'addwishlist'])->name('wishlist.add');
     Route::delete('delete/wishlist/{item}', [FrontController::class, 'deleteWishlist'])->name('wishlist.destroy');
