@@ -88,7 +88,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route("setting.index") }}">
+                <a href="{{ route(" setting.index") }}">
                     <i class="fa fa-cogs"></i> <span>Pengaturan</span>
                 </a>
             </li>
@@ -99,11 +99,6 @@
             <li>
                 <a href="{{ route('kategori.index') }}">
                     <i class="fa fa-cube"></i> <span>Kategori</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('stok.index') }}">
-                    <i class="fa fa-cube"></i> <span>Stok Masuk</span>
                 </a>
             </li>
             <li>
@@ -129,7 +124,7 @@
                 </a>
             </li> --}}
             <li>
-                <a href="{{ route("setting.index") }}">
+                <a href="{{ route(" setting.index") }}">
                     <i class="fa fa-cogs"></i> <span>Pengaturan Toko</span>
                 </a>
             </li>
