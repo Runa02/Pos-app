@@ -149,5 +149,7 @@ Route::group(['middleware' => 'role_id:1,3'], function () {
     Route::get('/wishlist', [FrontController::class, 'wishlist'])->name('wishlist.index');
     Route::get('/wishlist/add/{id}', [FrontController::class, 'addwishlist'])->name('wishlist.add');
     Route::delete('delete/wishlist/{item}', [FrontController::class, 'deleteWishlist'])->name('wishlist.destroy');
+
+    Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 });
 

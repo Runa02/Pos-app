@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -165,5 +166,11 @@ class UserController extends Controller
         $user->update();
 
         return redirect()->route('index.profile')->with('message', 'berhasil memperbarui');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/')->with('success', 'You have been logged out.');
     }
 }
