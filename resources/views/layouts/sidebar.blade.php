@@ -123,11 +123,6 @@
                     <i class="fa fa-users"></i> <span>User</span>
                 </a>
             </li> --}}
-            <li>
-                <a href="{{ route(" setting.index") }}">
-                    <i class="fa fa-cogs"></i> <span>Pengaturan Toko</span>
-                </a>
-            </li>
             @endif
         </ul>
     </section>

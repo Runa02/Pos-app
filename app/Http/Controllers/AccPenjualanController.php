@@ -12,7 +12,6 @@ class AccPenjualanController extends Controller
 {
     public function index(Request $request)
     {
-        $pagination = 5;
 
         $userId = Auth::id();
 
@@ -21,7 +20,7 @@ class AccPenjualanController extends Controller
                 ->where('user_id', $userId); // Menambahkan kondisi untuk memastikan hanya produk milik user yang login
         })
             ->orderBy('id', 'asc')
-            ->paginate($pagination);
+            ->get();
 
         return view('accpenjualan.index', compact('data'));
     }
