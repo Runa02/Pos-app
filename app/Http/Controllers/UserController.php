@@ -152,4 +152,18 @@ class UserController extends Controller
 
         return response()->json($user, 200);
     }
+
+    public function updateuser(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->has('password') && $request->password != "") 
+            $user->password = bcrypt($request->password);
+
+        $user->update();
+
+        return redirect()->route('index.profile')->with('message', 'berhasil memperbarui');
+    }
 }

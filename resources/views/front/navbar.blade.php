@@ -5,20 +5,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">All Products</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                    </ul>
-                </li>
-            </ul>
 
             <!-- Move these buttons to the right -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     @auth
                     <a class="btn btn-outline-dark mr-2" href="{{ route('front.cart') }}">
@@ -48,14 +37,17 @@
                 <li class="nav-item">
                     @auth
                         <div class="dropdown">
-                            <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="bi-person-fill me-1"></span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <!-- Add dropdown items here (e.g., profile, logout) -->
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                            {{-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Dropdown link
+                              </a> --}}
+                            
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('index.profile') }}">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Logout</a></li>
-                            </ul>
+                              </ul>
                         </div>
                     @else
                         <!-- Show Sign In link when the user is not authenticated -->
