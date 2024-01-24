@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AccPenjualan;
+use App\Models\Keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,22 +79,21 @@ class AccPenjualanController extends Controller
         $accPenjualan->save();
         return redirect()->back()->with('message', 'Berhasil Checkout Barang');
     }
-    public function add(Request $request)
+    public function add(Request $request, $id)
     {
-        $user = auth()->user();
+        $cartItem = Keranjang::findOrFail($id);
 
-        foreach ($user->keranjang as $cartItem) {
-            AccPenjualan::create([
-                'user_id' => $user->id,
-                'produk_id' => $cartItem->produk_id,
-                'status' => 'Menunggu',
-                'jumlah' => $cartItem->stok,
-                'pesan' => 'Belii',
-                'total_bayar' => $cartItem->produk->harga_jual * $cartItem->stok,
-            ]);
+        AccPenjualan::create([
+            'user_id' => auth()->id(),
+            'produk_id' => $cartItem->produk_id,
+            'status' => 'Menunggu',
+            'jumlah' => $cartItem->stok,
+            'pesan' => 'Beli',
+            'total_bayar' => $cartItem->produk->harga_jual * $cartItem->stok,
+        ]);
 
-            $cartItem->delete();
-        }
+        $cartItem->delete();
+
         return redirect()->back()->with('message', 'Berhasil Checkout Barang');
     }
 

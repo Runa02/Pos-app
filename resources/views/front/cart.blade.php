@@ -44,7 +44,7 @@
                                             </form>
                                         </div>
                                         <div class="col-3">
-                                            <form action="{{ route('add-accpenjualan') }}" method="post">
+                                            <form action="{{ route('add-accpenjualan', ['id' => $cartItem->id]) }}" method="post">
                                                 @csrf
                                                 @method('post')
                                                 <button type="submit" class="btn btn-primary"><i

@@ -135,7 +135,7 @@ Route::group(['middleware' => 'role_id:1,3'], function () {
     Route::get('/produk/detail/{id}', [FrontController::class, 'detailcontent'])->name('produk.detail');
     Route::get('/', [FrontController::class, 'index'])->name('front.index');
     Route::post('/send-accpenjualan/{id}', [AccPenjualanController::class, 'Send'])->name('send-accpenjualan');
-    Route::post('/add-accpenjualan', [AccPenjualanController::class, 'add'])->name('add-accpenjualan');
+    Route::post('/add-accpenjualan/{id}', [AccPenjualanController::class, 'add'])->name('add-accpenjualan');
 
     Route::get('/cart/add/{id}', [KeranjangController::class, 'addcart'])->name('cart.add');
     Route::post('/cart/update/{id}', [KeranjangController::class, 'updatecart'])->name('cart.update');
