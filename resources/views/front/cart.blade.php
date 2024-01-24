@@ -17,40 +17,48 @@
                             </tr>
                         </thead>
                         <tbody>
-                          @forelse($cartItems as $cartItem)
-                          <tr>
-                              <td><img class="img-thumbnail" width="150" height="150" src="{{ $cartItem->produk->photo }}" /></td>
-                              <td>{{ $cartItem->produk->nama_produk }}</td>
-                              <td>Rp. {{ $cartItem->produk->harga_jual }}</td>
-                              <td>
-                                  <div class="row g-0">
-                                      <div class="col-6">
-                                          <form method="post" class="mb-2">
-                                              @csrf
-                                              @method('put')
-                                              <input type="number" style="width: 100px;" name="stok" value="{{ $cartItem->stok }}" min="1" class="form-control">
-                                          </form>
-                                      </div>
-                                      <div class="col-3">
-                                          <form method="post" action="{{ route('cart.destroy', $cartItem->id) }}" id="deleteForm{{ $cartItem->id }}">
-                                              @csrf
-                                              @method('delete')
-                                              <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $cartItem->id }})"><i class="bi-trash"></i></button>
-                                          </form>
-                                      </div>
-                                      <div class="col-3">
-                                          <form method="post">
-                                              <button type="submit" class="btn btn-primary"><i class="bi-check"></i></button>
-                                          </form>
-                                      </div>
-                                  </div>
-                              </td>
-                          </tr>
-                          @empty
-                              <tr>
-                                  <td colspan="4">Keranjang kosong.</td>
-                              </tr>
-                          @endforelse
+                            @forelse($cartItems as $cartItem)
+                            <tr>
+                                <td><img class="img-thumbnail" width="150" height="150"
+                                        src="{{ $cartItem->produk->photo }}" /></td>
+                                <td>{{ $cartItem->produk->nama_produk }}</td>
+                                <td>Rp. {{ $cartItem->produk->harga_jual }}</td>
+                                <td>
+                                    <div class="row g-0">
+                                        <div class="col-6">
+                                            <form action="{{ route('cart.update', $cartItem->id) }}" method="post" class="mb-2">
+                                                @csrf
+                                                @method('post')
+                                                <input type="number" style="width: 100px;" name="stok"
+                                                    value="{{ $cartItem->stok }}" min="1" class="form-control">
+                                            </form>
+                                        </div>
+                                        <div class="col-3">
+                                            <form method="post" action="{{ route('cart.destroy', $cartItem->id) }}"
+                                                id="deleteForm{{ $cartItem->id }}">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="confirmDelete({{ $cartItem->id }})"><i
+                                                        class="bi-trash"></i></button>
+                                            </form>
+                                        </div>
+                                        <div class="col-3">
+                                            <form action="{{ route('add-accpenjualan') }}" method="post">
+                                                @csrf
+                                                @method('post')
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="bi-check"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4">Keranjang kosong.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -61,12 +69,12 @@
                 <div class="card-body">
                     <h5>Detail Informasi</h5>
                     @php
-                        $totalBayar = 0;
+                    $totalBayar = 0;
                     @endphp
                     @foreach($cartItems as $cartItem)
-                        @php
-                            $totalBayar += $cartItem->produk->harga_jual * $cartItem->stok;
-                        @endphp
+                    @php
+                    $totalBayar += $cartItem->produk->harga_jual * $cartItem->stok;
+                    @endphp
                     @endforeach
                     <p class="total-harga"><strong>Total Bayar: </strong>{{ $totalBayar }}</span></p>
                 </div>

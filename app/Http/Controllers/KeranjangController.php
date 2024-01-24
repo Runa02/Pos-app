@@ -69,10 +69,6 @@ class KeranjangController extends Controller
      * @param  \App\Models\Keranjang  $keranjang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Keranjang $keranjang)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -86,14 +82,26 @@ class KeranjangController extends Controller
         if ($cartItem->user_id !== auth()->id()) {
             abort(403, 'Unauthorized'); // Or redirect to an error page
         }
-    
+
         // Delete the cart item
         $cartItem->delete();
-    
+
         // Optionally, you may redirect to a specific page after deletion
         return redirect()->route('front.cart')->with('success', 'Item deleted successfully');
     }
+    public function updatecart(Request $request, $id)
+    {
+        $request->validate([
+            'stok' => 'required|numeric|min:1',
+        ]);
 
+        $cartItem = Keranjang::findOrFail($id);
+
+        $cartItem->stok = $request->input('stok');
+        $cartItem->save();
+
+        return redirect()->back()->with('success', 'Cart item updated successfully');
+    }
     public function addcart($id)
     {
         // Check if the product exists before trying to find it
@@ -104,11 +112,12 @@ class KeranjangController extends Controller
             return redirect()->route('front.cart')->with('error', 'Product not found');
         }
     
+
         // Check if the product is already in the user's cart
         $existingCartItem = Keranjang::where('produk_id', $product->id)
             ->where('user_id', auth()->id())
             ->first();
-    
+
         if ($existingCartItem) {
             // If the product is already in the cart, update the quantity or other attributes as needed
             $existingCartItem->stok += 1;
@@ -123,8 +132,8 @@ class KeranjangController extends Controller
                 // Add other attributes as needed
             ]);
         }
-    
+
         return redirect()->route('front.index');
-    }    
-    
+    }
+
 }

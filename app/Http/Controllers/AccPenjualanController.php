@@ -57,7 +57,7 @@ class AccPenjualanController extends Controller
         $user_id = auth()->user()->id;
 
         $request->validate([
-            'pesan' => 'required|string',
+            'pesan' => 'nullable',
             'jumlah' => 'required',
 
         ]);
@@ -76,6 +76,24 @@ class AccPenjualanController extends Controller
         ]);
 
         $accPenjualan->save();
+        return redirect()->back()->with('message', 'Berhasil Checkout Barang');
+    }
+    public function add(Request $request)
+    {
+        $user = auth()->user();
+
+        foreach ($user->keranjang as $cartItem) {
+            AccPenjualan::create([
+                'user_id' => $user->id,
+                'produk_id' => $cartItem->produk_id,
+                'status' => 'Menunggu',
+                'jumlah' => $cartItem->stok,
+                'pesan' => 'Belii',
+                'total_bayar' => $cartItem->produk->harga_jual * $cartItem->stok,
+            ]);
+
+            $cartItem->delete();
+        }
         return redirect()->back()->with('message', 'Berhasil Checkout Barang');
     }
 
