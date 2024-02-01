@@ -36,12 +36,15 @@
                         <div style="color: black">
                             <h5 class="fw-bolder">{{ $product->nama_produk }}</h5>
                             Rp. {{ $product->harga_jual }}
+                            <p>Stok: {{ $product->stok }}</p>
                         </div>
                     </div>
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent d-flex justify-content-between">
                         <div class="flex-grow-1 me-3">
-                            <a class="btn btn-outline-warning mt-auto w-100 checkout-btn" data-bs-toggle="modal"
-    data-bs-target="#checkoutModal-{{ $product->id }}" data-product-id="{{ $product->id }}">Checkout</a>
+                            <a class="btn btn-outline-warning mt-auto w-100 checkout-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#checkoutModal-{{ $product->id }}"
+                                data-product-id="{{ $product->id }}">Checkout</a>
                         </div>
                         <div>
                             <a class="btn btn-outline-primary mt-auto" href="{{ route('cart.add', ['id' => $product->id]) }}"><i class="bi-cart-fill"></i></a>
@@ -52,7 +55,7 @@
         </div>
 
         <div id="checkoutModal-{{ $product->id }}" class="modal fade" tabindex="-1" role="dialog"
-            aria-labelledby="checkoutModalLabel-{{ $product->id }}" aria-hidden="true"> aria-hidden="true">
+            aria-labelledby="checkoutModalLabel-{{ $product->id }}" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -60,8 +63,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('send-accpenjualan', ['id' => $product->id]) }}" method="post"
-                            class="mb-4 checkout-form" data-product-id="{{ $product->id }}">
+                        <form id="checkoutForm" action="{{ route('send-accpenjualan', ['id' => $product->id]) }}" method="post" class="mb-4 checkout-form" data-product-id="{{ $product->id }}">
                             @csrf
                             <div class="form-group row mb-3">
                                 <label for="jumlah" class="col-lg-2 col-lg-offset-1 control-label">Jumlah</label>
@@ -81,9 +83,9 @@
                             </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Checkout</button>
+                        <button type="submit" class="btn btn-primary">Checkout</button>
                     </div>
-                    </form>
+                </form>
                 </div>
             </div>
         </div>

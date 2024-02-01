@@ -63,6 +63,7 @@ class AccPenjualanController extends Controller
         ]);
 
         $produk = Produk::findOrFail($id);
+        // dd($produk);
 
         $total_bayar = $request->jumlah * $produk->harga_jual;
 
@@ -76,7 +77,7 @@ class AccPenjualanController extends Controller
         ]);
 
         $accPenjualan->save();
-        return redirect()->back()->with('message', 'Berhasil Checkout Barang');
+        return redirect()->route('success.page', ['id' => $accPenjualan->id])->with('message', 'Berhasil Checkout Barang');
     }
     public function add(Request $request, $id)
     {

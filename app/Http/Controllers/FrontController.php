@@ -85,4 +85,12 @@ class FrontController extends Controller
         $orders = AccPenjualan::with('produk')->where('user_id', auth()->id())->get();
         return view('front.order', ['orders' => $orders]);
     }
+
+    public function successPage($id)
+    {
+        $data = AccPenjualan::with('produk.user')->where('id', $id)->first();
+
+        // dd($data);
+        return view('front.successpage', compact('data'));
+    }
 }

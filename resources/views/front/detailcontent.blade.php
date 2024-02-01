@@ -8,6 +8,7 @@
         </div>
         <div class="col-6">
             <h2>{{ $detail->nama_produk }}</h2> <!-- Menampilkan nama produk -->
+            <p>Stok: {{ $detail->stok }}</p>
             <p>{{ $detail->desc }}</p> <!-- Menampilkan deskripsi produk -->
             <div class="button mt-5">
                 <a class="btn btn-primary mt-auto checkout-btn" data-bs-toggle="modal"

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class BuatKategoriTable extends Migration
+class AddAlamatToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class BuatKategoriTable extends Migration
      */
     public function up()
     {
-        Schema::create('kategori', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained();
-            $table->increments('id_kategori');
-            $table->string('nama_kategori');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('alamat')->nullable();
+            $table->string('no_whatsapp')->nullable();
         });
     }
 
@@ -28,6 +26,8 @@ class BuatKategoriTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kategori');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

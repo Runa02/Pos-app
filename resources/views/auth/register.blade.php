@@ -43,6 +43,24 @@
                 <span class="help-block with-errors"></span>
                 @enderror
             </div>
+            <label for="nama" class="control-label">Alamat</label>
+            <div class="form-group has-feedback @error('alamat') has-error @enderror">
+                <input type="alamat" name="alamat" class="form-control" placeholder="alamat" required>
+                @error('alamat')
+                <span class="help-block">{{ $message }}</span>
+                @else
+                <span class="help-block with-errors"></span>
+                @enderror
+            </div>
+            <label for="nama" class="control-label">Nomor Whatsapp</label>
+            <div class="form-group has-feedback @error('no_whatsapp') has-error @enderror">
+                <input type="no_whatsapp" name="no_whatsapp" class="form-control" placeholder="no whatsapp" required>
+                @error('no_whatsapp')
+                <span class="help-block">{{ $message }}</span>
+                @else
+                <span class="help-block with-errors"></span>
+                @enderror
+            </div>
             <label for="role_id" class="control-label">Role</label>
             <div class="form-group has-feedback @error('role_id') has-error @enderror">
                 <select name="role_id" id="role_id" class="form-control" required>

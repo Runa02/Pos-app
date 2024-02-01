@@ -14,12 +14,12 @@ class AccPenjualan extends Model
 
     protected $fillable = ['user_id', 'produk_id','status','jumlah','pesan','total_bayar'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
     public function produk()
     {
         return $this->belongsTo(Produk::class, 'produk_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
