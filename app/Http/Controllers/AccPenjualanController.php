@@ -94,7 +94,7 @@ class AccPenjualanController extends Controller
 
         $cartItem->delete();
 
-        return redirect()->back()->with('message', 'Berhasil Checkout Barang');
+        return redirect()->route('success.page', ['id' => $cartItem->id])->with('message', 'Berhasil Checkout Barang');
     }
 
 }
